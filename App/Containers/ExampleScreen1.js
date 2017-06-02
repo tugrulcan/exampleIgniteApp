@@ -127,6 +127,7 @@ class ExampleScreen1 extends React.Component {
   // returns true if the dataSource is empty
   noRowData() {
     return this.state.dataSource.getRowCount() === 0
+    
   }
 
   // Render a footer.
@@ -155,7 +156,7 @@ class ExampleScreen1 extends React.Component {
           size = {100}
           icon={<Image source={ROUTE_ICON} style={{ height: 80, width: 80, borderRadius:50}} />}
           onPress={() => { 
-            const url = "http://maps.google.com/maps?saddr=38.43882333333333,27.202935000000004&daddr=1901.%20Sk.%20No:43,%20Saruhan%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Oktay%20Erol%20Pulcuo%C4%9Flu%20Cd.%20No:8,%2045030%20Ke%C3%A7ilik%C3%B6y%20Osb/Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Manisa%20TOK%C4%B0%20Konutlar%C4%B1%20No:3,%20Uncubozk%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:5619.%20Sk.%20No:2,%20Ke%C3%A7ili%20K%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Vali%20Azizbey%20Cd.%20No:34,%2075.%20Y%C4%B1l%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:43.%20Sk.%20No:23,%20Turgut%20%C3%96zal%20Mahallesi,%2045040%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:308.%20Sk.%20No:130,%20Kaz%C4%B1m%20Karabekir%20Mahallesi,%2045040%20%C5%9Eehzadeler/Manisa,%20T%C3%BCrkiye+to:1803.%20Sk.%20No:7,%20%C3%87ar%C5%9F%C4%B1%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Muradiye%20Mah.%20Manolya%20Sokak%20No:234%20Yunusemre%20-%20Manisa&dirflg=d"
+            const url = "http://maps.google.com/maps?saddr=38.491697,27.707017&daddr=1901.%20Sk.%20No:43,%20Saruhan%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Oktay%20Erol%20Pulcuo%C4%9Flu%20Cd.%20No:8,%2045030%20Ke%C3%A7ilik%C3%B6y%20Osb/Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Manisa%20TOK%C4%B0%20Konutlar%C4%B1%20No:3,%20Uncubozk%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:5619.%20Sk.%20No:2,%20Ke%C3%A7ili%20K%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Vali%20Azizbey%20Cd.%20No:34,%2075.%20Y%C4%B1l%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:43.%20Sk.%20No:23,%20Turgut%20%C3%96zal%20Mahallesi,%2045040%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:308.%20Sk.%20No:130,%20Kaz%C4%B1m%20Karabekir%20Mahallesi,%2045040%20%C5%9Eehzadeler/Manisa,%20T%C3%BCrkiye+to:1803.%20Sk.%20No:7,%20%C3%87ar%C5%9F%C4%B1%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Muradiye%20Mah.%20Manolya%20Sokak%20No:234%20Yunusemre%20-%20Manisa&dirflg=d"
             Linking.openURL(url);
            }}
         />

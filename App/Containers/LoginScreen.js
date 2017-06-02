@@ -28,8 +28,8 @@ class LoginScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      username: 'reactnative@infinite.red',
-      password: 'password',
+      username: 'surucu@sbt.com',
+      password: 'sifre123',
       visibleHeight: Metrics.screenHeight,
       topLogo: { width: Metrics.screenWidth }
     }
@@ -76,10 +76,13 @@ class LoginScreen extends React.Component {
   }
 
   handlePressLogin = () => {
-    const { username, password } = this.state
-    this.isAttempting = true
-    // attempt a login - a saga is listening to pick it up from here.
-    this.props.attemptLogin(username, password)
+    // const { username, password } = this.state
+    // this.isAttempting = true
+    // // attempt a login - a saga is listening to pick it up from here.
+    // this.props.attemptLogin(username, password)
+    alert("Sürücü Girişi Yapıldı!");
+    const { navigate } = this.props.navigation;
+    navigate('ExampleScreen1');
   }
 
   handleChangeUsername = (text) => {
@@ -100,7 +103,7 @@ class LoginScreen extends React.Component {
         <Image source={Images.logo} style={[styles.topLogo, this.state.topLogo]} />
         <View style={styles.form}>
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Username</Text>
+            <Text style={styles.rowLabel}>Kullanıcı Adı</Text>
             <TextInput
               ref='username'
               style={textInputStyle}
@@ -113,11 +116,11 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangeUsername}
               underlineColorAndroid='transparent'
               onSubmitEditing={() => this.refs.password.focus()}
-              placeholder='Username' />
+              placeholder='Kullanıcı Adı' />
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Password</Text>
+            <Text style={styles.rowLabel}>Şifre</Text>
             <TextInput
               ref='password'
               style={textInputStyle}
@@ -131,18 +134,18 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangePassword}
               underlineColorAndroid='transparent'
               onSubmitEditing={this.handlePressLogin}
-              placeholder='Password' />
+              placeholder='Şifre' />
           </View>
 
           <View style={[styles.loginRow]}>
             <TouchableOpacity style={styles.loginButtonWrapper} onPress={this.handlePressLogin}>
               <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Sign In</Text>
+                <Text style={styles.loginText}>Oturum Aç</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.loginButtonWrapper} onPress={() => this.props.navigation.goBack()}>
               <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Cancel</Text>
+                <Text style={styles.loginText}>İptal</Text>
               </View>
             </TouchableOpacity>
           </View>
