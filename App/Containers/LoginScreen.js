@@ -143,11 +143,11 @@ class LoginScreen extends React.Component {
                 <Text style={styles.loginText}>Oturum Aç</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginButtonWrapper} onPress={() => this.props.navigation.goBack()}>
+            {/*<TouchableOpacity style={styles.loginButtonWrapper} onPress={() => this.props.navigation.goBack()}>
               <View style={styles.loginButton}>
                 <Text style={styles.loginText}>İptal</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
           </View>
         </View>
 
