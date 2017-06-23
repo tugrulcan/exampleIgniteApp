@@ -1,37 +1,53 @@
-import React from 'react'
-import { View, Text, ListView, Image, TouchableHighlight, Linking } from 'react-native'
-import { connect } from 'react-redux'
-import studentListData from '../Fixtures/data.json'
+import React from "react";
+import {
+  View,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Keyboard,
+  Modal,
+  ListView,
+  TouchableHighlight,
+  LayoutAnimation,
+  Linking,
+  Alert
+} from "react-native";
+import { connect } from "react-redux";
+import studentListData from "../Fixtures/data.json";
+import { Images, Metrics } from "../Themes";
 
-import { phonecall } from 'react-native-communications';
-import ActionButton from 'react-native-action-button';
-import GiftedListView from 'react-native-gifted-listview';
+import { phonecall } from "react-native-communications";
+import ActionButton from "react-native-action-button";
+import GiftedListView from "react-native-gifted-listview";
 
 // For empty lists
 // import AlertMessage from '../Components/AlertMessage'
 
 // Styles
-import styles from './Styles/ExampleScreen1Style'
+import styles from "./Styles/ExampleScreen1Style";
 
-const TICK_ICON = require('../Images/tick.png');
-const CROSS_ICON = require('../Images/cross.png');
-const CALL_ICON = require('../Images/call.png');
-const ROUTE_ICON = require('../Images/route.png');
+const TICK_ICON = require("../Images/tick.png");
+const CROSS_ICON = require("../Images/cross.png");
+const CALL_ICON = require("../Images/call.png");
+const ROUTE_ICON = require("../Images/route.png");
+const FINISH_ICON = require("../Images/finish.png");
 
-const IBO_PNG = require('../Images/ibo.png');
+const USER_PNG = require("../Images/user.png");
 class ExampleScreen1 extends React.Component {
   // state: {
   //   dataSource:
   // }
 
   constructor(props) {
-    super(props)
+    super(props);
     /* ***********************************************************
     * STEP 1
     * This is an array of objects with the properties you desire
     * Usually this should come from Redux mapStateToProps
     *************************************************************/
-    const dataObjects = studentListData.studentList
+    const dataObjects = studentListData.studentList;
     // [
     //   {title: 'First Title', description: 'First Description'},
     //   {title: 'Second Title', description: 'Second Description'},
@@ -48,15 +64,16 @@ class ExampleScreen1 extends React.Component {
     * Make this function fast!  Perhaps something like:
     *   (r1, r2) => r1.id !== r2.id}
     *************************************************************/
-    const rowHasChanged = (r1, r2) => r1 !== r2
+    const rowHasChanged = (r1, r2) => r1 !== r2;
 
     // DataSource configured
-    const ds = new ListView.DataSource({ rowHasChanged })
+    const ds = new ListView.DataSource({ rowHasChanged });
 
     // Datasource is always in state
     this.state = {
-      dataSource: ds.cloneWithRows(dataObjects)
-    }
+      dataSource: ds.cloneWithRows(dataObjects),
+      modalVisible: false
+    };
   }
 
   /* ***********************************************************
@@ -68,41 +85,38 @@ class ExampleScreen1 extends React.Component {
     return <MyCustomCell title={rowData.title} description={rowData.description} />
   *************************************************************/
 
-
-
   renderRow(rowData) {
     return (
       <View style={styles.row}>
-        <View style={{ flex: 3 }}   >
+        <View style={{ flex: 3 }}>
           <Image
             style={{ width: 90, height: 90, borderRadius: 50 }}
-            source={IBO_PNG}
-          //source={{ uri: rowData.photoURL }}
+            source={USER_PNG}
+
+            //source={{ uri: rowData.photoURL }}
           />
         </View>
-        <View style={{ justifyContent: 'flex-start', flex: 3 }}>
+        <View style={{ justifyContent: "flex-start", flex: 3 }}>
           <Text style={styles.boldLabel}>{rowData.name}</Text>
           <Text style={styles.label}>{rowData.parentName}</Text>
           <Text style={styles.label}>{rowData.parentPhone}</Text>
         </View>
-        <View style={{ justifyContent: 'center', flex: 3 }} >
+        <View style={{ justifyContent: "center", flex: 3 }}>
           <Image
             style={{ width: 40, height: 40 }}
             source={rowData.willUse ? TICK_ICON : CROSS_ICON}
           />
         </View>
-        <View style={{ flex: 3 }} >
-          <TouchableHighlight onPress={() => phonecall(rowData.parentPhone, true)}>
-            <Image
-              style={{ width: 40, height: 40 }}
-              source={CALL_ICON}
-            />
+        <View style={{ flex: 3 }}>
+          <TouchableHighlight
+            onPress={() => phonecall(rowData.parentPhone, true)}
+          >
+            <Image style={{ width: 40, height: 40 }} source={CALL_ICON} />
           </TouchableHighlight>
         </View>
 
       </View>
-
-    )
+    );
   }
 
   /* ***********************************************************
@@ -126,16 +140,13 @@ class ExampleScreen1 extends React.Component {
   // Used for friendly AlertMessage
   // returns true if the dataSource is empty
   noRowData() {
-    return this.state.dataSource.getRowCount() === 0
-    
+    return this.state.dataSource.getRowCount() === 0;
   }
 
   // Render a footer.
   renderFooter = () => {
-    return (
-      <Text> - Footer - </Text>
-    )
-  }
+    return <Text> - Footer - </Text>;
+  };
 
   render() {
     return (
@@ -152,30 +163,110 @@ class ExampleScreen1 extends React.Component {
 
         <ActionButton
           buttonColor="rgba(30, 144, 255,1)"
-          position = "center"
-          size = {100}
-          icon={<Image source={ROUTE_ICON} style={{ height: 80, width: 80, borderRadius:50}} />}
-          onPress={() => { 
+          position="center"
+          size={100}
+          icon={
+            <Image
+              source={ROUTE_ICON}
+              style={{ height: 80, width: 80, borderRadius: 50 }}
+            />
+          }
+          onPress={() => {
             //URL https://gist.github.com/tugrulcan/1261c428095227ed7c8d7a089ce7d5a0
-            const url = "http://maps.google.com/maps?saddr=38.491697,27.707017&daddr=1901.%20Sk.%20No:43,%20Saruhan%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Oktay%20Erol%20Pulcuo%C4%9Flu%20Cd.%20No:8,%2045030%20Ke%C3%A7ilik%C3%B6y%20Osb/Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Manisa%20TOK%C4%B0%20Konutlar%C4%B1%20No:3,%20Uncubozk%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:5619.%20Sk.%20No:2,%20Ke%C3%A7ili%20K%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Vali%20Azizbey%20Cd.%20No:34,%2075.%20Y%C4%B1l%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:43.%20Sk.%20No:23,%20Turgut%20%C3%96zal%20Mahallesi,%2045040%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:308.%20Sk.%20No:130,%20Kaz%C4%B1m%20Karabekir%20Mahallesi,%2045040%20%C5%9Eehzadeler/Manisa,%20T%C3%BCrkiye+to:1803.%20Sk.%20No:7,%20%C3%87ar%C5%9F%C4%B1%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Muradiye%20Mah.%20Manolya%20Sokak%20No:234%20Yunusemre%20-%20Manisa&dirflg=d"
+            const url =
+              "http://maps.google.com/maps?saddr=38.491697,27.707017&daddr=1901.%20Sk.%20No:43,%20Saruhan%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Oktay%20Erol%20Pulcuo%C4%9Flu%20Cd.%20No:8,%2045030%20Ke%C3%A7ilik%C3%B6y%20Osb/Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Manisa%20TOK%C4%B0%20Konutlar%C4%B1%20No:3,%20Uncubozk%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:5619.%20Sk.%20No:2,%20Ke%C3%A7ili%20K%C3%B6y%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Vali%20Azizbey%20Cd.%20No:34,%2075.%20Y%C4%B1l%20Mahallesi,%2045030%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:43.%20Sk.%20No:23,%20Turgut%20%C3%96zal%20Mahallesi,%2045040%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:308.%20Sk.%20No:130,%20Kaz%C4%B1m%20Karabekir%20Mahallesi,%2045040%20%C5%9Eehzadeler/Manisa,%20T%C3%BCrkiye+to:1803.%20Sk.%20No:7,%20%C3%87ar%C5%9F%C4%B1%20Mahallesi,%2045010%20Manisa%20Merkez/Manisa,%20T%C3%BCrkiye+to:Muradiye%20Mah.%20Manolya%20Sokak%20No:234%20Yunusemre%20-%20Manisa&dirflg=d";
             Linking.openURL(url);
-           }}
+          }}
         />
+        <ActionButton
+          buttonColor="rgba(255, 26, 33,1)"
+          size={75}
+          icon={
+            <Image source={FINISH_ICON} style={{ height: 50, width: 50 }} />
+          }
+          onPress={() => {
+            Alert.alert(
+              "Rota Sonlandırma",
+              "Okula ulaşıldı bildirimi gönderilsin mi?",
+              [
+                {
+                  text: "İptal",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                {
+                  text: "Gönder",
+                  onPress: () => {
+                    this.setState({ modalVisible: true });
+                  } //this._delete(rowData) // <----- HERE!!!!
+                }
+              ],
+              { cancelable: true }
+            );
+          }}
+        />
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onShow={() => {
+            setTimeout(() => {
+              this.setState({ modalVisible: false });
+              const { navigate } = this.props.navigation;
+              navigate("LoginScreen");
+            }, 800);
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
 
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <View
+                style={{
+                  paddingRight: 15
+                }}
+              >
+                <Image
+                  style={{
+                    width: 32,
+                    height: 32
+                  }}
+                  source={Images.success}
+                />
+              </View>
+
+              <Text style={styles.alertLabel}>
+                Bildirim gönderildi!
+              </Text>
+            </View>
+          </View>
+
+        </Modal>
       </View>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     // ...redux state to props here
-  }
-}
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExampleScreen1)
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleScreen1);

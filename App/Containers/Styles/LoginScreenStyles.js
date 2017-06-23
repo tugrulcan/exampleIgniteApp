@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Colors, Metrics } from '../../Themes'
+import { StyleSheet } from "react-native";
+import { Colors, Metrics, ApplicationStyles } from "../../Themes";
 
 export default StyleSheet.create({
   container: {
@@ -18,6 +18,18 @@ export default StyleSheet.create({
   rowLabel: {
     color: Colors.charcoal
   },
+  headerLabel: {
+    color: Colors.charcoal,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 21
+  },
+  alertLabel: {
+    color: Colors.coal,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 28
+  },
   textInput: {
     height: 40,
     color: Colors.coal
@@ -29,7 +41,7 @@ export default StyleSheet.create({
   loginRow: {
     paddingBottom: Metrics.doubleBaseMargin,
     paddingHorizontal: Metrics.doubleBaseMargin,
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   loginButtonWrapper: {
     flex: 1
@@ -42,11 +54,11 @@ export default StyleSheet.create({
     padding: 6
   },
   loginText: {
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.silver
   },
   topLogo: {
-    alignSelf: 'center',
-    resizeMode: 'contain'
+    alignSelf: "center",
+    resizeMode: "contain"
   }
-})
+});
